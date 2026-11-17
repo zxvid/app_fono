@@ -33,6 +33,9 @@ migrate_working_dir/
 /build/
 /coverage/
 
+# Backend (lives in the 'backend' branch)
+backend_ia/
+
 # Symbolication related
 app.*.symbols
 
