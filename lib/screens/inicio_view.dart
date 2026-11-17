@@ -567,6 +567,7 @@ class InicioView extends StatelessWidget {
         ),
         padding: const EdgeInsets.all(16),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
@@ -577,7 +578,7 @@ class InicioView extends StatelessWidget {
               ),
               child: Icon(icon, color: iconColor),
             ),
-            const Spacer(),
+            const SizedBox(height: 12),
             Text(
               title,
               style: const TextStyle(
