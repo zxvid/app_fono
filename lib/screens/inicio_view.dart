@@ -16,6 +16,16 @@ class InicioView extends StatelessWidget {
     required this.onCancelAppointment,
   });
 
+  String _appointmentText(String key) {
+    return activeAppointment?[key]?.toString() ?? '';
+  }
+
+  int _appointmentId() {
+    final id = activeAppointment?['id'];
+    if (id is int) return id;
+    return int.tryParse(id?.toString() ?? '') ?? 0;
+  }
+
   void _mostrarDetallesCita(BuildContext context) {
     if (activeAppointment == null) return;
     final colorScheme = Theme.of(context).colorScheme;
@@ -73,7 +83,7 @@ class InicioView extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           radius: 28,
-                          backgroundImage: NetworkImage(activeAppointment!['fotoDoctor']!),
+                          backgroundImage: NetworkImage(_appointmentText('fotoDoctor')),
                           backgroundColor: Colors.grey.shade200,
                         ),
                         const SizedBox(width: 16),
@@ -82,14 +92,14 @@ class InicioView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                activeAppointment!['nombreDoctor']!,
+                                _appointmentText('nombreDoctor'),
                                 style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               Text(
-                                activeAppointment!['especialidad']!,
+                                _appointmentText('especialidad'),
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: colorScheme.primaryContainer,
@@ -115,7 +125,7 @@ class InicioView extends StatelessWidget {
                                 style: TextStyle(fontSize: 12, color: Colors.grey),
                               ),
                               Text(
-                                activeAppointment!['fechaFormateada']!,
+                                _appointmentText('fechaFormateada'),
                                 style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                               ),
                             ],
@@ -136,14 +146,14 @@ class InicioView extends StatelessWidget {
                               style: TextStyle(fontSize: 12, color: Colors.grey),
                             ),
                             Text(
-                              activeAppointment!['consultorio']!,
+                              _appointmentText('consultorio'),
                               style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
                       ],
                     ),
-                    if (activeAppointment!['sintomas'] != null && activeAppointment!['sintomas'].toString().isNotEmpty) ...[
+                    if (_appointmentText('sintomas').isNotEmpty) ...[
                       const SizedBox(height: 16),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,7 +169,7 @@ class InicioView extends StatelessWidget {
                                   style: TextStyle(fontSize: 12, color: Colors.grey),
                                 ),
                                 Text(
-                                  activeAppointment!['sintomas']!,
+                                  _appointmentText('sintomas'),
                                   style: const TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
                                 ),
                               ],
@@ -201,7 +211,8 @@ class InicioView extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.pop(context);
-                        onSelectSpecialty(activeAppointment!['specialtyIndex'] ?? 0);
+                        final specialty = activeAppointment?['specialtyIndex'];
+                        onSelectSpecialty(specialty is int ? specialty : 0);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: colorScheme.primary,
@@ -246,7 +257,7 @@ class InicioView extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                onCancelAppointment(activeAppointment!['id']);
+                onCancelAppointment(_appointmentId());
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
@@ -362,7 +373,7 @@ class InicioView extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                activeAppointment!['fechaFormateada']!,
+                                _appointmentText('fechaFormateada'),
                                 style: TextStyle(
                                   fontSize: size.width * 0.04 > 15 ? 15 : size.width * 0.04,
                                   fontWeight: FontWeight.bold,
@@ -387,7 +398,7 @@ class InicioView extends StatelessWidget {
                         children: [
                           CircleAvatar(
                             radius: 24,
-                            backgroundImage: NetworkImage(activeAppointment!['fotoDoctor']!),
+                            backgroundImage: NetworkImage(_appointmentText('fotoDoctor')),
                           ),
                           const SizedBox(width: 12),
                           Expanded(
@@ -395,14 +406,14 @@ class InicioView extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  activeAppointment!['nombreDoctor']!,
+                                  _appointmentText('nombreDoctor'),
                                   style: TextStyle(
                                     fontSize: size.width * 0.04 > 16 ? 16 : size.width * 0.04,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 Text(
-                                  activeAppointment!['especialidad']!,
+                                  _appointmentText('especialidad'),
                                   style: TextStyle(
                                     fontSize: 12,
                                     color: colorScheme.onSurfaceVariant,

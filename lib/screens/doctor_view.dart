@@ -36,12 +36,14 @@ class _DoctorViewState extends State<DoctorView> {
     setState(() => _isLoading = true);
     try {
       final appointments = await ApiService.obtenerCitasDoctor();
+      if (!mounted) return;
       setState(() {
         _appointments = appointments;
         _isLoading = false;
       });
     } catch (e) {
       print("Error fetching doctor data: $e");
+      if (!mounted) return;
       setState(() => _isLoading = false);
     }
   }
@@ -49,6 +51,7 @@ class _DoctorViewState extends State<DoctorView> {
   Future<void> _fetchNotifications() async {
     try {
       final notifs = await ApiService.obtenerNotificaciones();
+      if (!mounted) return;
       setState(() {
         _notifications = notifs;
         _unreadNotificationsCount = notifs.where((n) => n['leida'] == 0).length;

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'inicio_view.dart';
 import 'agendar_cita_screen.dart';
 import 'perfil_screen.dart';
-import 'm&p_screen.dart';
 import 'doctor_view.dart';
 import '../api_service.dart';
 
@@ -18,7 +17,6 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   int _selectedIndex = 0;
   late String _userEmail;
-  late String _userRole;
   int? _selectedSpecialtyIndex;
 
   Map<String, dynamic>? _activeAppointment;
@@ -54,7 +52,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     super.initState();
     _userEmail = widget.userEmail ?? "Invitado";
-    _userRole = widget.userRole ?? "USER";
     _cargarCitas();
   }
 
@@ -161,8 +158,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     try {
       final list = await ApiService.obtenerCitas();
-      if (!mounted)
-        return; // Verificar que el widget sigue montado antes de actualizar el estado
+      if (!mounted) {
+        return;
+      }
       setState(() {
         if (list.isNotEmpty) {
           _activeAppointment = enriquecerCita(list.first);
@@ -172,8 +170,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
         _loadingAppointments = false;
       });
     } catch (e) {
-      if (!mounted)
-        return; // Verificar que el widget sigue montado antes de actualizar el estado
+      if (!mounted) {
+        return;
+      }
       setState(() {
         _loadingAppointments = false;
       });
